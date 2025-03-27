@@ -8,13 +8,9 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "18"
-      - run: npm ci
-      - run: npm run cypress:run
-      - name: Start Server
-        run: npm run dev & # Запускаем сервер в фоновом режиме (&)
-      - name: Wait for Server
-        run: |
-          # Ждем, пока сервер станет доступен
-          npx wait-on http://localhost:3000 -t 60000 # Ждем до 60 секунд
+      - name: Install dependencies
+        run: npm ci
+      - name: Start dev server
+        run: npm run dev & npx wait-on http://localhost:3000
       - name: Run Cypress tests
-        run: npm run cypress:run
+        run: npx cypress run
